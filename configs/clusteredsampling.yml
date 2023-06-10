@@ -1,0 +1,32 @@
+_base_:
+  - _base_/datasets/mnist.yml
+
+fl_method:
+  type: ClusteredSampling
+  global_epoch: 100
+  local_epoch: 10
+  num_clients: 100
+  frac: 0.1
+  sim_type: L1
+
+train_set:
+  batch_size: 10
+  division:
+    method: iid
+
+model:
+ type: CNNMnist
+
+loss:
+  type: CrossEntropyLoss
+
+optimizer:
+  type: SGD
+  lr: 0.001
+  momentum: 0.9
+#  weight_decay: 0.0001
+
+#lr_scheduler:
+#  type: StepLR
+#  step_size: 20
+#  gamma: 0.3

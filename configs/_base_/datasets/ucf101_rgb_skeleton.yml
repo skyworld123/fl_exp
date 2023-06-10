@@ -1,0 +1,87 @@
+train_set:
+  type: UCF101RGBSkeleton
+  rgb_root: ../dataset/UCF101/UCF-101
+  skeleton_path: ../dataset/UCF101/skeletons/ucf101.pkl
+  fold: 1
+  division:
+    method: iid
+    long_tail: 0
+    gamma_d: 0.98
+    shuffle: 1
+    gamma_c: 0.95
+    tau: 1
+  batch_size: 8
+  sampler:
+    type: RandomSampler
+  transform:
+    - VideoTensorTransformV2
+    - VideoNormalizeV2:
+        mean: [123.675, 116.28, 103.53]
+        std: [58.395, 57.12, 57.375]
+    - RGBPoseAlignment
+    - UniformSampleFrames:
+        clip_len_rgb: 8
+        clip_len_pose: 32
+    - PoseCompact:
+        hw_ratio: 1.0
+        allow_imgpad: True
+    - RandomResizedCropV2:
+        area_range: [0.56, 1.0]
+    - ResizeV2:
+        scale: [224, 224]
+        keep_ratio: False
+    - FlipV2:
+        flip_ratio: 0.5
+        left_kp: [1, 3, 5, 7, 9, 11, 13, 15]
+        right_kp: [2, 4, 6, 8, 10, 12, 14, 16]
+    - GeneratePoseTarget:
+        sigma: 0.6
+        use_score: True
+        with_kp: True
+        with_limb: False
+        target_shape: [56, 56]
+    - FormatShape:
+        input_format: 'NCTHW'
+        collapse: True
+    - Collect:
+        keys: ['rgb', 'pose_imgs', 'label']
+        meta_keys: []
+
+test_set:
+  type: UCF101RGBSkeleton
+  rgb_root: ../dataset/UCF101/UCF-101
+  skeleton_path: ../dataset/UCF101/skeletons/ucf101.pkl
+  fold: 1
+  batch_size: 8
+  test_sample_ratio: 0.1
+  sampler:
+    type: SequentialSampler
+  transform:
+    - VideoTensorTransformV2
+    - VideoNormalizeV2:
+        mean: [ 123.675, 116.28, 103.53 ]
+        std: [ 58.395, 57.12, 57.375 ]
+    - RGBPoseAlignment
+    - UniformSampleFrames:
+        clip_len_rgb: 8
+        clip_len_pose: 32
+        num_clips: 10
+        test_mode: True
+    - PoseCompact:
+        hw_ratio: 1.0
+        allow_imgpad: True
+    - ResizeV2:
+        scale: [ -1, 224 ]
+    - CenterCropV2:
+        crop_size: 224
+    - GeneratePoseTarget:
+        sigma: 0.6
+        use_score: True
+        with_kp: True
+        with_limb: False
+        target_shape: [56, 56]
+    - FormatShape:
+        input_format: 'NCTHW'
+    - Collect:
+        keys: ['rgb', 'pose_imgs', 'label']
+        meta_keys: []

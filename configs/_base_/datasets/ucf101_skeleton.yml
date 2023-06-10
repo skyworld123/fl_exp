@@ -1,0 +1,77 @@
+train_set:
+  type: UCF101Skeleton
+  root: ../dataset/UCF101/skeletons/ucf101.pkl
+  fold: 1
+  division:
+    method: iid
+    long_tail: 0
+    gamma_d: 0.98
+    shuffle: 1
+    gamma_c: 0.95
+    tau: 1
+  batch_size: 8
+  sampler:
+    type: RandomSampler
+  transform:
+    - UniformSampleFrames:
+#        clip_len_pose: 48
+        clip_len_pose: 32
+    - PoseCompact:
+        hw_ratio: 1.0
+        allow_imgpad: True
+#    - ResizeV2:
+#        scale: [-1, 64]
+    - RandomResizedCropV2:
+        area_range: [0.56, 1.0]
+    - ResizeV2:
+#        scale: [48, 48]
+        scale: [56, 56]
+        keep_ratio: False
+    - FlipV2:
+        flip_ratio: 0.5
+        left_kp: [1, 3, 5, 7, 9, 11, 13, 15]
+        right_kp: [2, 4, 6, 8, 10, 12, 14, 16]
+    - GeneratePoseTarget:
+        sigma: 0.6
+        use_score: True
+        with_kp: True
+        with_limb: False
+    - FormatShape:
+        input_format: 'NCTHW'
+        collapse: True
+    - Collect:
+        keys: ['pose_imgs', 'label']
+        meta_keys: []
+
+test_set:
+  type: UCF101Skeleton
+  root: ../dataset/UCF101/skeletons/ucf101.pkl
+  fold: 1
+  batch_size: 8
+  test_sample_ratio: 0.1
+  sampler:
+    type: SequentialSampler
+  transform:
+    - UniformSampleFrames:
+#        clip_len_pose: 48
+        clip_len_pose: 32
+        num_clips: 10
+        test_mode: True
+#    - PoseDecode
+    - PoseCompact:
+        hw_ratio: 1.0
+        allow_imgpad: True
+    - ResizeV2:
+        scale: [-1, 56]
+    - CenterCropV2:
+        crop_size: 56
+    - GeneratePoseTarget:
+        sigma: 0.6
+        use_score: True
+        with_kp: True
+        with_limb: False
+    - FormatShape:
+        input_format: 'NCTHW'
+    - Collect:
+        keys: ['pose_imgs', 'label']
+        meta_keys: []

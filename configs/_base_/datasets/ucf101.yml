@@ -1,0 +1,58 @@
+train_set:
+  type: UCF101
+  root: ../dataset/UCF101
+  fold: 1
+  division:
+    method: iid
+    long_tail: 0
+    gamma_d: 0.98
+    shuffle: 1
+    gamma_c: 0.95
+    tau: 1
+  batch_size: 2
+  global_batch_size: 64
+#  train_sample_ratio: 0.01
+  sampler:
+    type: RandomSampler
+#    replacement: True
+#    num_samples: 8000  # total len: 1M+
+  transform:
+    - VideoTensorTransform:
+        normalize: False
+    - VideoSampler:
+        num_seg: 1
+        frame_interval: 2
+        seg_len: 32
+        test_mode: False
+    - ResizeShort:
+        size: 256
+    - RandomResizedCrop:
+        size: [224, 224]
+    - RandomHorizontalFlip
+    - VideoNormalize:
+        mean: [123.675, 116.28, 103.53]
+        std: [58.395, 57.12, 57.375]
+
+test_set:
+  type: UCF101
+  root: ../dataset/UCF101
+  fold: 1
+  batch_size: 2
+  test_sample_ratio: 0.1
+  sampler:
+    type: SequentialSampler
+  transform:
+    - VideoTensorTransform:
+        normalize: False
+    - VideoSampler:
+        num_seg: 4
+        frame_interval: 2
+        seg_len: 32
+        test_mode: True
+    - ResizeShort:
+        size: 224
+    - UniformCrop:
+        size: [224, 224]
+    - VideoNormalize:
+        mean: [123.675, 116.28, 103.53]
+        std: [58.395, 57.12, 57.375]

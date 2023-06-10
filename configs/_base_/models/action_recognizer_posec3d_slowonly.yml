@@ -1,0 +1,19 @@
+model:
+  type: Recognizer3D
+  in_channels: 17
+  backbone:
+    type: ResNet3dSlowOnly
+    slow: False
+    depth: 50
+    stage_blocks: [0, 4, 6, 3]
+    base_channels: 32
+    spatial_strides: [1, 2, 2, 2]
+    temporal_strides: [1, 1, 1, 1]
+    conv1_kernel: [1, 7, 7]
+    conv1_stride_s: 1
+    conv1_stride_t: 1
+    with_pool1: False
+    with_pool2: False
+    inflate: [0, 0, 1, 1]
+  head:
+    type: I3DHead

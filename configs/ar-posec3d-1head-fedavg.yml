@@ -1,0 +1,34 @@
+_base_:
+  - _base_/datasets/ucf101_tiny_rgb_skeleton.yml
+  - _base_/models/action_recognizer_posec3d_slowfast_1h.yml
+
+fl_method:
+  type: FedAvg
+  global_epoch: 200
+  local_epoch: 3  # E
+  num_clients: 20  # K
+  frac: 0.25  # C
+  local_bs: 4  # B
+
+model:
+  pretrained: ../pretrained/posec3d-400-20-1head.pth
+
+train_set:
+  division:
+    method: non-iid
+    classes_per_client: 4
+
+loss:
+  type: CrossEntropyLoss
+
+optimizer:
+  type: AdamW
+  betas: [0.9, 0.999]
+  lr: 0.0005
+  weight_decay: 0.05
+
+lr_scheduler:
+  type: CosineAnnealingWithWarmup
+  T_warmup: 50
+  T_max: 550
+  eta_min: 0

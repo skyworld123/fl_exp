@@ -1,0 +1,26 @@
+train_set:
+  type: MNIST
+  root: ../dataset/MNIST
+  division:
+    method: iid
+    long_tail: 0
+    gamma_d: 0.774  # gamma coefficient of number of samples of classes (long-tailed dataset)
+    shuffle: 1
+    gamma_c: 0.977  # gamma coefficient of number of samples of clients
+    tau: 2
+  batch_size: 10  # covered by fl_method.local_bs
+  transform:
+    - ToTensor
+    - Normalize:
+        mean: [0.1307]
+        std: [0.3081]
+
+test_set:
+  type: MNIST
+  root: ../dataset/MNIST
+  batch_size: 128
+  transform:
+    - ToTensor
+    - Normalize:
+        mean: [0.1307]
+        std: [0.3081]

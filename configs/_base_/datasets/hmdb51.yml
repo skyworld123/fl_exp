@@ -1,0 +1,41 @@
+train_set:
+  type: HMDB51
+  root: ../dataset/HMDB51
+  fold: 1
+  division:
+    method: iid
+    long_tail: 0
+    gamma_d: 0.96
+    shuffle: 1
+    gamma_c: 0.95
+    tau: 0.4
+  batch_size: 8
+  num_workers: 0
+  train_sample_ratio: 0.1
+  transform:
+    - VideoTensorTransform
+    - RandomHorizontalFlip
+    - ResizeShort:
+        size: 256
+    - RandomCrop:
+        size: [224, 224]
+    - VideoNormalize:
+        mean: [0.5, 0.5, 0.5]
+        std: [0.5, 0.5, 0.5]
+
+test_set:
+  type: HMDB51
+  root: ../dataset/HMDB51
+  fold: 1
+  batch_size: 1
+  num_workers: 0
+  test_sample_ratio: 0.01
+  transform:
+    - VideoTensorTransform
+    - ResizeShort:
+        size: 256
+    - CenterCrop:
+        size: [224, 224]
+    - VideoNormalize:
+        mean: [0.5, 0.5, 0.5]
+        std: [0.5, 0.5, 0.5]

@@ -1,0 +1,26 @@
+train_set:
+  type: FashionMNIST
+  root: ../dataset/FashionMNIST
+  division:
+    method: iid
+    long_tail: 0
+    gamma_d: 0.774
+    shuffle: 1
+    gamma_c: 0.977
+    tau: 2
+  batch_size: 10
+  transform:
+    - ToTensor
+    - Normalize:
+        mean: [0.1307]
+        std: [0.3081]
+
+test_set:
+  type: FashionMNIST
+  root: ../dataset/FashionMNIST
+  batch_size: 128
+  transform:
+    - ToTensor
+    - Normalize:
+        mean: [0.1307]
+        std: [0.3081]

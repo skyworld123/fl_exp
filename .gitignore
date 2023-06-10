@@ -1,0 +1,9 @@
+# basic
+**/*.pyc
+__pycache__/
+.idea/
+
+# project output
+output/
+predict_results/
+tensorboard_results/

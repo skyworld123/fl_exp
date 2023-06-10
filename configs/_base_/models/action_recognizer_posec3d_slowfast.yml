@@ -1,0 +1,50 @@
+model:
+  type: Recognizer3D
+  backbone:
+    type: ResNet3dSlowFast
+    double_mode: True
+    slow_pathway:
+      type: resnet3d
+      lateral_stem: False
+      lateral_layers: [0, 1, 0, 0]
+      speed_ratio: 4
+      channel_ratio_stem: 2
+      channel_ratio_layers: [4, 4, 4, 4]
+      slow: True
+      depth: 50
+      pretrained: None
+      stage_blocks: [3, 4, 6, 3]
+      in_channels: 3
+      base_channels: 64
+      spatial_strides: [1, 2, 2, 2]
+      temporal_strides: [1, 1, 1, 1]
+      conv1_kernel: [1, 7, 7]
+      conv1_stride_s: 2
+      conv1_stride_t: 1
+      with_pool2: False
+      inflate: [0, 0, 1, 1]
+    fast_pathway:
+      type: resnet3d
+      lateral_stem: False
+      lateral_layers: [1, 1, 0, 0]
+      speed_ratio: 4
+      channel_ratio_layers: [8, 4, 4, 4]
+      slow: False
+      depth: 50
+      pretrained: None
+      stage_blocks: [0, 4, 6, 3]
+      in_channels: 17
+      base_channels: 32
+      spatial_strides: [1, 2, 2, 2]
+      temporal_strides: [1, 1, 1, 1]
+      conv1_kernel: [1, 7, 7]
+      conv1_stride_s: 1
+      conv1_stride_t: 1
+      with_pool1: False
+      with_pool2: False
+      inflate: [0, 0, 1, 1]
+  head:
+    type: SlowFastDoubleHead
+
+loss:
+  type: BinaryCrossEntropyLoss

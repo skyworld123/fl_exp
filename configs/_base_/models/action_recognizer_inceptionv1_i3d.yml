@@ -1,0 +1,8 @@
+model:
+  type: Recognizer3D
+  backbone:
+    type: InceptionV1I3D
+  head:
+    type: I3DHead
+    in_channels: 1024
+  dropout: 0.5

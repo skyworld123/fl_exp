@@ -1,0 +1,42 @@
+_base_:
+  - _base_/datasets/mnist.yml
+
+fl_method:
+  type: FedAvg
+  global_epoch: 100
+  local_epoch: 10  # E
+  num_clients: 100  # K
+  frac: 0.1  # C
+  local_bs: 10  # B
+
+target_metric:
+  - 0.96
+  - 0.97
+  - 0.98
+  - 0.99
+
+train_set:
+  division:
+    method: non-iid-hard
+
+model:
+ type: CNNMnist
+#model:
+#  type: MLPImage
+#  in_dim: 784
+#  hidden_dim: 64
+#  out_dim: 10
+
+loss:
+  type: CrossEntropyLoss
+
+optimizer:
+  type: SGD
+  lr: 0.001
+  momentum: 0.9
+#  weight_decay: 0.0001
+
+#lr_scheduler:
+#  type: StepLR
+#  step_size: 20
+#  gamma: 0.3

@@ -1,0 +1,10 @@
+model:
+  type: Recognizer3D
+  backbone:
+    type: VideoResNet
+    arch: r3d_18
+    load_pretrained: True
+  head:
+    type: I3DHead
+    in_channels: 512
+  dropout: 0.5
