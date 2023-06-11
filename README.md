@@ -2,7 +2,7 @@
 
 A PyTorch-based federated learning experiment platform, which currently supports training, testing and predicting of the following tasks:
 
-* classic image classification tasks, including MNIST, FashionMNIST, and CIFAR10
+* classic image classification tasks, including MNIST, FashionMNIST and CIFAR10
 * action recognition tasks, including HMDB51, UCF101 and Kinetics400
 
 
@@ -48,18 +48,18 @@ Centralized training is also supported, for performance comparisons to the feder
 
 To add a new federated learning algorithm:
 
-* Add a new .py code file under flmethods/, in which you should write the Manager, Client and Server classes. Then, add the Manager class (i.e. import this class) in flmethods/\__init__.py.
-* Add a new .py code file under flmethods/trainers, in which you should write the Trainer class. Then, add the Trainer class (i.e. import this class) in flmethods/trainers/\__init__.py.
+* Add a new .py code file under flmethods/, in which you should write the Manager, Client and Server classes. Then, add the Manager class (i.e. import this class) in flmethods/\_\_init__.py.
+* Add a new .py code file under flmethods/trainers, in which you should write the Trainer class. Then, add the Trainer class (i.e. import this class) in flmethods/trainers/\_\_init__.py.
 
 To add a new dataset:
 
-* Add a new .py code file under datasets/, in which you should write the class of the new dataset and the corresponding Wrapper class. Then, add the Wrapper class (i.e. import this class) in datasets/\__init__.py.
-* Specify the Tester class (and the corresponding parameters) for the new dataset in operations/test/\__init__.py. If existing Tester classes can't satisfy your demands, you can write new Tester classes under operations/test/.
-* (optional) Specify the Predictor class (and the corresponding parameters) for the new dataset in operations/predict/\__init__.py. If existing Predictor classes can't satisfy your demands, you can write new Predictor classes under operations/predict/.
+* Add a new .py code file under datasets/, in which you should write the class of the new dataset and the corresponding Wrapper class. Then, add the Wrapper class (i.e. import this class) in datasets/\_\_init__.py.
+* Specify the Tester class (and the corresponding parameters) for the new dataset in operations/test/\_\_init__.py. If existing Tester classes can't satisfy your demands, you can write new Tester classes under operations/test/.
+* (optional) Specify the Predictor class (and the corresponding parameters) for the new dataset in operations/predict/\_\_init__.py. If existing Predictor classes can't satisfy your demands, you can write new Predictor classes under operations/predict/.
 
 To add a new model:
 
-* Add a new .py code file for the new model under models/, and add this model class (i.e. import this class) in models/\__init__.py.
+* Add a new .py code file for the new model under models/, and add this model class (i.e. import this class) in models/\_\_init__.py.
 
 
 
@@ -153,7 +153,7 @@ To test a model trained by centralized training:
 ```shell
 python test.py \
     -c=configs/centralized.yml \
-    --model=output/Centralized_MNIST_CNNMnist/epoch10/model.pth
+    --model=output/Centralized_MNIST_CNNMnist/epoch100/model.pth
 ```
 
 To test a model trained by FedAvg:
@@ -161,7 +161,7 @@ To test a model trained by FedAvg:
 ```shell
 python test.py \
     -c=configs/fedavg.yml \
-    --model=output/FedAvg_MNIST_CNNMnist_iid/epoch10/model.pth
+    --model=output/FedAvg_MNIST_CNNMnist_iid/epoch100/model.pth
 ```
 
 If --do_eval is specified in training, the best_model/ directory will be automatically generated under output directory. In this case you can run directly:
@@ -197,7 +197,7 @@ To use the MNIST model trained by FedAvg to predict the hand-written digit image
 python predict.py \
     -c=configs/fedavg.yml \
     -i=test_digit.jpg
-    --model=output/FedAvg_MNIST_CNNMnist_iid/epoch10/model.pth
+    --model=output/FedAvg_MNIST_CNNMnist_iid/epoch100/model.pth
     -o=predict_results
 ```
 

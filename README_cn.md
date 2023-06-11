@@ -45,18 +45,18 @@
 
 添加新的联邦学习算法：
 
-* 在flmethods/下添加新算法的.py代码，编写Manager类、Client类与Server类的代码逻辑，并在flmethods/\__init__.py中添加新算法的Manager类
-* 在flmethods/trainers下添加新算法的.py代码，编写训练模块（Trainer）类的代码逻辑，并在flmethods/trainers/\__init__.py中添加新算法的Trainer类
+* 在flmethods/下添加新算法的.py代码，编写Manager类、Client类与Server类的代码逻辑，并在flmethods/\_\_init__.py中添加新算法的Manager类
+* 在flmethods/trainers下添加新算法的.py代码，编写训练模块（Trainer）类的代码逻辑，并在flmethods/trainers/\_\_init__.py中添加新算法的Trainer类
 
 添加新数据集：
 
-* 在datasets/下添加新数据集的.py代码，编写数据集类和Wrapper类的代码逻辑，并在datasets/\__init__.py中添加新数据集的Wrapper类
-* 在operations/test/\__init__.py中指定新数据集所使用的测试模块（Tester）类及相应参数，若现有Tester类不符合需求，可在operations/test/下编写新的Tester类
-* （可选）在operations/predict/\__init__.py中指定新数据集所使用的预测模块（Predictor）类及相应参数，若现有Predictor类不符合需求，可在operations/predict/下编写新的Predictor类
+* 在datasets/下添加新数据集的.py代码，编写数据集类和Wrapper类的代码逻辑，并在datasets/\_\_init__.py中添加新数据集的Wrapper类
+* 在operations/test/\_\_init__.py中指定新数据集所使用的测试模块（Tester）类及相应参数，若现有Tester类不符合需求，可在operations/test/下编写新的Tester类
+* （可选）在operations/predict/\_\_init__.py中指定新数据集所使用的预测模块（Predictor）类及相应参数，若现有Predictor类不符合需求，可在operations/predict/下编写新的Predictor类
 
 添加新模型：
 
-* 在models/下添加新模型的.py代码，并在models/\__init__.py中添加该模型的类
+* 在models/下添加新模型的.py代码，并在models/\_\_init__.py中添加该模型的类
 
 
 
@@ -150,7 +150,7 @@ python train.py \
 ```shell
 python test.py \
     -c=configs/centralized.yml \
-    --model=output/Centralized_MNIST_CNNMnist/epoch10/model.pth
+    --model=output/Centralized_MNIST_CNNMnist/epoch100/model.pth
 ```
 
 测试使用联邦学习方法FedAvg训练所得模型：
@@ -158,7 +158,7 @@ python test.py \
 ```shell
 python test.py \
     -c=configs/fedavg.yml \
-    --model=output/FedAvg_MNIST_CNNMnist_iid/epoch10/model.pth
+    --model=output/FedAvg_MNIST_CNNMnist_iid/epoch100/model.pth
 ```
 
 如果训练时指定了--do_eval，相应的输出目录下会生成best_model目录，此时可直接运行：
@@ -194,7 +194,7 @@ predict.py的参数包括：
 python predict.py \
     -c=configs/fedavg.yml \
     -i=test_digit.jpg
-    --model=output/FedAvg_MNIST_CNNMnist_iid/epoch10/model.pth
+    --model=output/FedAvg_MNIST_CNNMnist_iid/epoch100/model.pth
     -o=predict_results
 ```
 
